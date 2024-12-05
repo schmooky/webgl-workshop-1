@@ -16,7 +16,7 @@ async function main() {
   const app = new Application({
     width: window.innerWidth,
     height: window.innerHeight,
-    backgroundColor: 0x104488,
+    backgroundColor: 0x2f3136,
     antialias: true,
     view: document.getElementById("pixiCanvas")! as HTMLCanvasElement,
   });
@@ -35,13 +35,13 @@ async function main() {
       "aVertexPosition", // the attribute name
       [
         -100,
-        -100, // bottom-left
+        -100, // top-left
         100,
-        -100, // bottom-right
+        -100, // top-right
         100,
-        100, // top-right
+        100, // bottom-right
         -100,
-        100, // top-left
+        100, // bottom-left
       ],
       2 // size of each vertex (x, y)
     )
@@ -49,13 +49,13 @@ async function main() {
       "aUvs", // the attribute name
       [
         0,
-        0, // bottom-left
+        0, // top-left
         1,
-        0, // bottom-right
+        0, // top-right
         1,
-        1, // top-right
+        1, // bottom-right
         0,
-        1, // top-left
+        1, // bottom-left
       ],
       2 // size of each UV (u, v)
     )

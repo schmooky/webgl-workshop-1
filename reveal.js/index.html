@@ -83,7 +83,9 @@ vec4 color = vec4(1.0, 0.0, 0.0, 0.5); // Красный полупрозрач�
             <h3>Матричные типы</h3>
             <p></p><code>mat2</code>, <code>mat3</code>, <code>mat4</code></p>
             <pre><code class="language-glsl">
-vec3 color = vec3(1.0, 0.0, 0.0); // Красный
+mat3 matrix3x3 = mat3(1.0, 0.0, 0.0,
+                      0.0, 1.0, 0.0,
+                      0.0, 0.0, 1.0);
             </code></pre>
         </section>
         <!-- Слайд о vec3 -->
@@ -107,7 +109,7 @@ float x = position.x; // 1.0
                 <li>Доступ к элементам через <code>.r</code>, <code>.g</code>, <code>.b</code>, <code>.w</code> или <code>[0]</code> - <code>[3]</code>.</li>
             </ul>
             <pre><code class="language-glsl">
-vec4 color = vec4(1.0, 0.0, 0.0, 1.0); // Красный с полной непрозрачностью
+vec4 color = vec4(1.0, 0.0, 0.0, 1.0); // Красный
 float alpha = color.w; // 1.0
             </code></pre>
         </section>
@@ -212,7 +214,7 @@ varying vec2 vUvs;
 uniform sampler2D uSampler2;
 
 void main() {
-    vec4(1.0, 0.5, 0.2, 1.0); // Оранжевый
+    gl_FragColor = vec4(1.0, 0.5, 0.2, 1.0); // Оранжевый
 }
                     </code></pre>
                 </section>

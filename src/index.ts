@@ -4,11 +4,12 @@ import {
   Shader,
   Geometry,
   Mesh,
+  Texture,
 } from "pixi.js";
 
 import vertexShader from "./base.vert?raw";
 
-import fragmentShader from "./task12.frag?raw";
+import fragmentShader from "./base.frag?raw";
 
 async function main() {
   // Create PixiJS application
@@ -20,9 +21,14 @@ async function main() {
     view: document.getElementById("pixiCanvas")! as HTMLCanvasElement,
   });
 
-
   await Assets.load("bunny.webp");
   await Assets.load("peach.webp");
+
+  const shader = Shader.from(vertexShader, fragmentShader, {
+    uSampler2: Assets.cache.get("bunny.webp") as Texture, //! Пояснить
+    uTime: 0,
+    uMouse: [0,0]
+  });
 
   const geometry = new Geometry()
     .addAttribute(
@@ -55,22 +61,20 @@ async function main() {
     )
     .addIndex([0, 1, 2, 0, 2, 3]); // indices that form two triangles for a quad
 
-  const shader = Shader.from(vertexShader, fragmentShader, {
-    uSampler2: Assets.cache.get("bunny.webp"), // Ensure the asset is correctly loaded
-    uTime: 0,
-  });
+  const example = new Mesh(geometry, shader);
 
-  const triangle = new Mesh(geometry, shader);
+  example.position.set(app.renderer.width/2, app.renderer.height/2);
 
-  triangle.position.set(400, 300);
-  triangle.scale.set(2);
+  app.stage.addChild(example);
 
-  app.stage.addChild(triangle);
+  document.addEventListener('mousemove', (event) => {
+    const mouseX = event.clientX / window.innerWidth;
+    const mouseY = event.clientY / window.innerHeight;
+    shader.uniforms.uMouse = [mouseX, mouseY]; // Пример передачи данных о мыши
+});
 
   app.ticker.add((delta: number) => {
-    // triangle.rotation += 0.01;
-    
-    shader.uniforms.uTime += delta; // Пример передачи данных о мыши
+    shader.uniforms.uTime += delta;
   });
 
 }

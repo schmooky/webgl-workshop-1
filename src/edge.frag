@@ -12,7 +12,7 @@ void main() {
     vec4 edgeColor = vec4(1.0, 0.0, 1.0, 1.0); // #FF00FF
 
     // Threshold for edge detection
-    float edgeThreshold = 0.02; // Tune this value to control the "thickness" of the edge
+    float edgeThreshold = 0.01; // Tune this value to control the "thickness" of the edge
 
     // Check if the current UV position is near any edge
     bool isEdge = vUvs.x < edgeThreshold ||

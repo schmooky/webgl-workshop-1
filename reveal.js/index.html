@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Синтаксис GLSL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4/dist/theme/black.css">
+    <style>
+        /* Дополнительные стили, если необходимо */
+        pre code {
+            background-color: #2D2D2D;
+            color: #CCCCCC;
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="reveal">
+    <div class="slides">
+        <!-- Слайд 1 -->
+        <section>
+            <h1>Введение в синтаксис GLSL</h1>
+            <p>Понимание основ языка шейдеров OpenGL</p>
+        </section>
+
+        <!-- Слайд 2 -->
+        <section>
+            <h2>Что такое GLSL?</h2>
+            <ul>
+                <li>GLSL: Язык шейдеров OpenGL</li>
+                <li>Предназначен для написания шейдеров</li>
+                <li>Компилируется графическим процессором</li>
+                <li>Позволяет оптимизировать на низком уровне</li>
+            </ul>
+        </section>
+
+        <!-- Слайд 3 -->
+        <section>
+            <h2>Структура программы на GLSL</h2>
+            <ol>
+                <li><b>Тип шейдера:</b> вершинный, фрагментный</li>
+                <li><b>in, out, uniform:</b> взаимодействие между шейдерами и приложением</li>
+                <li><b>Главная функция:</b> <code>void main() { ... }</code></li>
+            </ol>
+        </section>
+        <section>
+            <h2>Пример программы на GLSL</h2>
+            <pre><code class="language-glsl">
+#version 330 core
+
+in vec3 position;
+void main() {
+    gl_Position = vec4(position, 1.0);
+}
+            </code></pre>
+        </section>
+        <!-- Слайд 4 -->
+        <section>
+            <h2>Типы данных</h2>
+            <h3>Скалярные типы</h3>
+            <p><code>float</code>, <code>int</code>, <code>uint</code>, <code>bool</code></p>
+            <pre><code class="language-glsl">
+float a = 1.0;
+int b = 1;
+bool isC = true;
+            </code></pre>
+        </section>
+        <section>
+            <h2>Типы данных</h2>
+            <h3>Векторные типы</h3>
+            <p><code>vec2</code>, <code>vec3</code>, <code>vec4</code></p>
+            <pre><code class="language-glsl">
+vec3 color = vec3(1.0, 0.0, 0.0); // Красный
+vec4 color = vec4(1.0, 0.0, 0.0, 0.5); // Красный полупрозрачный
+            </code></pre>
+        </section>
+        <section>
+            <h2>Типы данных</h2>
+            <h3>Матричные типы</h3>
+            <p></p><code>mat2</code>, <code>mat3</code>, <code>mat4</code></p>
+            <pre><code class="language-glsl">
+vec3 color = vec3(1.0, 0.0, 0.0); // Красный
+            </code></pre>
+        </section>
+        <!-- Слайд о vec3 -->
+        <section>
+            <h2>Тип данных vec3</h2>
+            <p><code>vec3</code> — это тип данных, представляющий трехмерный вектор с компонентами float.</p>
+            <p>Используется для представления цветов, координат и прочих векторных величин.</p>
+            <p>Доступ к элементам можно получить через <code>.r</code>, <code>.g</code>, <code>.b</code> или <code>.x</code>, <code>.y</code>, <code>.z</code> или через <code>[0]</code>, <code>[1]</code>, <code>[2]</code>.</p>
+            <pre><code class="language-glsl">
+vec3 position = vec3(1.0, 2.0, 3.0);
+float x = position.x; // 1.0
+            </code></pre>
+        </section>
+
+        <!-- Слайд о vec4 -->
+        <section>
+            <h2>Тип данных vec4</h2>
+            <p><code>vec4</code> — тип данных, представляющий четырехмерный вектор с компонентами float.</p>
+            <ul>
+                <li>Часто используется для представления RGBA-значений, где <code>.w</code> представляет альфа-канал.</li>
+                <li>Доступ к элементам через <code>.r</code>, <code>.g</code>, <code>.b</code>, <code>.w</code> или <code>[0]</code> - <code>[3]</code>.</li>
+            </ul>
+            <pre><code class="language-glsl">
+vec4 color = vec4(1.0, 0.0, 0.0, 1.0); // Красный с полной непрозрачностью
+float alpha = color.w; // 1.0
+            </code></pre>
+        </section>
+
+        <!-- Слайд о mat3 -->
+        <section>
+            <h2>Тип данных mat3</h2>
+            <p><code>mat3</code> — это матрица 3x3 типа float.</p>
+            <ul>
+                <li>Используется для преобразований в двух и трех измерениях (например, поворотов).</li>
+                <li>Доступ к данным матрицы через индексы: <code>matrix[col][row]</code>.</li>
+            </ul>
+            <pre><code class="language-glsl">
+mat3 transform = mat3(1.0); // Единичная матрица
+float element = transform[0][0]; // 1.0
+            </code></pre>
+        </section>
+
+        <!-- Слайд о сэмплерах -->
+        <section>
+            <h2>Сэмплеры</h2>
+            <p>Сэмплеры используются в GLSL для доступа к текстурам внутри шейдеров.</p>
+            <p><code>sampler2D</code> используется для 2D текстур</p>
+            <pre><code class="language-glsl">
+uniform sampler2D texture;
+in vec2 texCoords;
+out vec4 FragColor;
+
+void main() {
+    FragColor = texture(texture, texCoords);
+}
+            </code></pre>
+        </section>
+        <!-- Слайд 5 -->
+        <section>
+            <h2>Модификаторы</h2>
+            <p>Модификаторы хранения: <code>const</code>, <code>in</code>, <code>out</code>, <code>inout</code>, <code>uniform</code></p>
+            <p>Модификаторы точности: <code>highp</code>, <code>mediump</code>, <code>lowp</code></p>
+            <pre><code class="language-glsl">
+precision mediump float;
+
+uniform sampler2D uSampler2;
+            </code></pre>
+        </section>
+
+        <!-- Слайд 6 -->
+        <section>
+            <h2>Встроенные переменные</h2>
+            <h3></h3>
+            <p>Вершинный шейдер: <code>gl_Position</code>, <code>gl_VertexID</code></p>
+            <p style="white-space: nowrap;">Фрагментный шейдер: <code>gl_FragColor</code>, <code>gl_FragCoord</code></p>
+            <pre><code class="language-glsl">
+void main() {
+    gl_Position = vec4(0.0, 0.0, 0.0, 1.0);
+}
+            </code></pre>
+        </section>
+
+        <!-- Слайд 7 -->
+        <section>
+            <h2>Функции и управляющие структуры</h2>
+            <h3>Функции</h3>
+            <p>Определение с использованием возвращаемого типа, названия и параметров</p>
+            <pre><code class="language-glsl">
+float luminance(vec3 color) {
+    return 0.2126*color.r + 0.7152*color.g + 0.0722*color.b;
+}
+            </code></pre>
+        </section>
+
+        <section>
+            <h2>Функции и управляющие структуры</h2>
+            <h3>Управляющие структуры</h3>
+            <p><code>if</code>, <code>for</code>, <code>while</code>, <code>do-while</code></p>
+            <p>Похожи по синтаксису на C/C++</p>
+        </section>
+
+        <!-- Слайд 8 -->
+        <section>
+            <h2>Пример: Простой вершинный шейдер</h2>
+            <pre><code class="language-glsl">
+precision mediump float;
+attribute vec2 aVertexPosition;
+attribute vec2 aUvs;
+uniform mat3 translationMatrix;
+uniform mat3 projectionMatrix;
+varying vec2 vUvs;
+    
+void main() {
+    vUvs = aUvs;
+    gl_Position = vec4(aVertexPosition.xy, 0.0, 1.0);
+}
+            </code></pre>
+        </section>
+
+                <!-- Слайд 8 -->
+                <section>
+                    <h2>Пример: Простой фрагментный шейдер</h2>
+                    <pre><code class="language-glsl">
+varying vec2 vUvs;
+
+uniform sampler2D uSampler2;
+
+void main() {
+    vec4(1.0, 0.5, 0.2, 1.0); // Оранжевый
+}
+                    </code></pre>
+                </section>
+        
+        <!-- Слайд 9 -->
+        <section>
+            <h2>Ресурсы и дальнейшее изучение</h2>
+            <ul>
+                <li><b>Документация OpenGL</b>: <a href="https://www.opengl.org">www.opengl.org</a></li>
+                <li><b>Спецификации GLSL</b></li>
+                <li><b>Книги:</b></li>
+                <ul>
+                    <li>"OpenGL Programming Guide"</li>
+                    <li>"OpenGL Shading Language" — Рэнди Дж. Рост</li>
+                </ul>
+                <li>Практикуйтесь и экспериментируйте с программами шейдеров</li>
+            </ul>
+        </section>
+
+        <!-- Слайд 10 -->
+        <section>
+            <h2>Вопросы?</h2>
+            <p>Задавайте любые вопросы о синтаксисе GLSL и его использовании!</p>
+        </section>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4/dist/reveal.js"></script>
+<script>
+    Reveal.initialize({
+        hash: true,
+        slideNumber: true,
+        history: true,
+        center: true,
+        transition: 'slide' // none/fade/slide/convex/concave/zoom
+    });
+</script>
+</body>
+</html>
